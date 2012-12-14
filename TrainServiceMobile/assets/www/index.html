@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>PhoneGap</title>
+<script src="../HelloGap/assets/www/trainSchedule.js"/>
+<script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script>	
+		$(document).ready(function() {
+		     var itemval= '<option value="M">Mumbai</option>';
+		     itemval += '<option value="P">Pune</option>';
+		     itemval += '<option value="C">Calcutta</option>';
+		     $("#fromStation").html(itemval);	
+		     
+		     var itemval1= '<option value="M">Mumbai</option>';
+		     itemval1 += '<option value="P">Pune</option>';
+		     itemval1 += '<option value="C">Calcutta</option>';
+		     $("#toStation").html(itemval1);		     
+		});
+	
+	  
+	
+
+	
+	
+	function getDescription() {
+		var url = 'http://192.168.1.32:8080/RESTfulExample/rest/payment';
+		req = new XMLHttpRequest();
+		req.onreadystatechange = processRequest;
+		req.open("GET", url, true);
+		req.send(null);
+	}
+	function processRequest() {
+		if (req.readyState == 4) {
+			if (req.status == 200) {								
+				var trainScheduledTable = document.getElementById("trainScheduleTable");
+		        var trainScheduledRow = trainScheduledTable.rows;
+		        if(trainScheduledRow.length>1){
+		            for(var j=(trainScheduledRow.length-1);j>0;j--){
+		                trainScheduledTable.deleteRow(j);
+		            }
+		        }		        
+		        
+                trainScheduledRow = trainScheduledTable.rows;
+               
+                var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);
+                newRow.insertCell(0).innerHTML = 1;
+                newRow.insertCell(1).innerHTML = "Zelam Express";
+                newRow.insertCell(2).innerHTML = "10:30";   
+                
+             
+                var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);
+                newRow.insertCell(0).innerHTML = 2;
+                newRow.insertCell(1).innerHTML = "Sinhgad Express";
+                newRow.insertCell(2).innerHTML = "11:30";    
+                
+                var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);
+                newRow.insertCell(0).innerHTML = 3;
+                newRow.insertCell(1).innerHTML = "Deccan  Express";
+                newRow.insertCell(2).innerHTML = "10:30";                 
+	            		        
+			} else   {
+				alert ( "Not able to retrieve description+"+req.responseText+"vide" );
+			}
+		}
+	}
+	function parseMessages() {
+		response  = req.responseXML.documentElement;
+		itemDescription = response.text;
+		alert (itemDescription);
+	}
+	
+</script>
+</head>
+	<body>
+		<form>
+			<h3><center> Train Schedule </center></h3>
+			<div>
+			   <fieldset>			   	
+			   		<table width="100%">
+			   			<tr>
+			   				<td width="20%">
+			   					From Station
+			   				</td>
+			   				<td>
+			   					<select id="fromStation" size="1">
+									<option>Select</option>
+		    					</select>
+			   				<td>
+			   			</tr>
+			   			<tr>
+			   				<td width="20%">
+			   					To Station
+			   				</td>
+			   				<td>
+			   					<select id="toStation" size="1">
+			   						<option>Select</option>	   					
+			   					</select>
+			   				<td>
+			   			</tr>
+			   			<tr>  
+						   <td>
+						   		Date/Time
+					   		</td>  
+						   <td>
+						   		<input type="text" id="DateTimeDemo" />
+						   </tr>  
+			   		</table>
+			   </fieldset>
+			</div>
+			<table>
+				<tr>
+					<td>
+						<input type="button" id="show" value="Show" onclick="getDescription();"/>
+					</td>
+				</tr>
+			</table>
+			<div align="center">
+		        <fieldset>
+		            <table width="100%" border="1" align="center" id="trainScheduleTable">
+		                <tr>
+		                    <td align="center" bgcolor="#336699" style="color:white">
+		                        Sr. No.
+		                    </td>
+		                    <td align="center" bgcolor="#336699" style="color:white">
+		                        Train Name
+		                    </td>
+		                    <td align="center" bgcolor="#336699" style="color:white">
+		                        Train Time
+		                    </td>
+		                </tr>
+		        	</table>
+		    	</fieldset>
+			</div>                       
+		</form>
+	</body>
+</html>
