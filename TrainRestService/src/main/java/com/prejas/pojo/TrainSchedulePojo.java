@@ -1,23 +1,27 @@
 package com.prejas.pojo;
 
 public class TrainSchedulePojo {
-	private String TrainName;
-	private String TrainTime;
-
+	private String trainNo;
+	public String getTrainNo() {
+		return trainNo;
+	}
+	public void setTrainNo(String trainNo) {
+		this.trainNo = trainNo;
+	}
+	private String trainName;
+	private String trainTime;
 	public String getTrainName() {
-		return TrainName;
+		return trainName;
 	}
-
 	public void setTrainName(String trainName) {
-		TrainName = trainName;
+		this.trainName = trainName;
 	}
-
 	public String getTrainTime() {
-		return TrainTime;
+		return trainTime;
 	}
-
 	public void setTrainTime(String trainTime) {
-		TrainTime = trainTime;
+		this.trainTime = trainTime;
 	}
 
+	
 }
