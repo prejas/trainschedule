@@ -6,7 +6,7 @@ import com.prejas.pojo.TrainSchedulePojo;
  
 public interface TrainServiceDao{
  
-	List<String> getAllTrainStationNames();
+	List<TrainSchedulePojo> getAllTrainStationNames();
 	List<TrainSchedulePojo> getAllScheduledTrains(String fromStation,String toStation,String dateTime);
  
 }

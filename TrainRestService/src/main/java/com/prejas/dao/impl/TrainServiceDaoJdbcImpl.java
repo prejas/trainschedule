@@ -1,7 +1,6 @@
 package com.prejas.dao.impl;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,30 +25,29 @@ public class TrainServiceDaoJdbcImpl implements TrainServiceDao {
 	}
 
 	@Override
-	public List<String> getAllTrainStationNames() {
+	public List<TrainSchedulePojo> getAllTrainStationNames() {
 		Connection conn = null;
-		List<String> list = null;
+		List<TrainSchedulePojo> list = null;
 		try {
-			String query = "select station_name from trainschedule";
+			String query = "select * from trainschedule";
 			// TODO Auto-generated method stub
 			conn = dataSource.getConnection();
 			Statement ps = conn.createStatement();
 			ResultSet rs = ps.executeQuery(query);
-			list = new ArrayList<String>();
+			list = new ArrayList<TrainSchedulePojo>();
 			while (rs.next()) {
-				list.add(String.valueOf(rs.getString(0)));
+				TrainSchedulePojo pojo=new TrainSchedulePojo();
+				
+				pojo.setStationName(String.valueOf(rs.getString("station_name")));
+				list.add(pojo);
+				System.out.println(rs.getString("station_name"));
 			}
 
 			return list;
 		} catch (Exception e) {
+			e.printStackTrace();
 
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-
-			}
-		}
+		} 
 		return list;
 	}
 

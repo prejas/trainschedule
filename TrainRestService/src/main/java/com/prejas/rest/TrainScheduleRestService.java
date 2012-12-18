@@ -24,7 +24,7 @@ public class TrainScheduleRestService {
 	@GET
 	@Path("/stnames")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<String> getAllStationNames() {
+	public List<TrainSchedulePojo> getAllStationNames() {
 		return trainService.getAllTrainStationNames();
 	}
 	

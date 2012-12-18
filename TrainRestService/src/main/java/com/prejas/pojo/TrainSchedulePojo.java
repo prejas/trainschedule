@@ -1,6 +1,15 @@
 package com.prejas.pojo;
 
-public class TrainSchedulePojo {
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class TrainSchedulePojo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String trainNo;
 	public String getTrainNo() {
 		return trainNo;
@@ -10,6 +19,13 @@ public class TrainSchedulePojo {
 	}
 	private String trainName;
 	private String trainTime;
+	private String stationName;
+	public String getStationName() {
+		return stationName;
+	}
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
+	}
 	public String getTrainName() {
 		return trainName;
 	}
