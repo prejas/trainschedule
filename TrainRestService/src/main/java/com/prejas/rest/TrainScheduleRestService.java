@@ -23,7 +23,7 @@ public class TrainScheduleRestService {
 
 	@GET
 	@Path("/stnames")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getAllStationNames() {
 		return trainService.getAllTrainStationNames();
 	}

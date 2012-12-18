@@ -6,9 +6,9 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
  
-	<context:component-scan base-package="com.mkyong.rest" />
+	<context:component-scan base-package="com.prejas" />
 	
-	<bean id="transactionBo" class="com.mkyong.transaction.impl.TransactionBoImpl">
+	<bean id="trainServiceDao" class="com.prejas.dao.impl.TrainServiceDaoJdbcImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
