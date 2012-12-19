@@ -12,21 +12,33 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" /> 
 	<script src="http://code.jquery.com/jquery-1.8.3.js"></script> 
 	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script> 
-	<link rel="stylesheet" href="/resources/demos/style.css" /> 
-
-<script>	
-		$(document).ready(function() {
-		     var itemval= '<option value="M">Mumbai</option>';
-		     itemval += '<option value="P">Pune</option>';
-		     itemval += '<option value="C">Calcutta</option>';
-		     $("#fromStation").html(itemval);	
-		     
-		     var itemval1= '<option value="M">Mumbai</option>';
-		     itemval1 += '<option value="P">Pune</option>';
-		     itemval1 += '<option value="C">Calcutta</option>';
-		     $("#toStation").html(itemval1);		     
-		});
+	<link rel="stylesheet" href="/resources/demos/style.css" /> 	
 	
+
+<script>       
+        $.support.cors = true
+	      	$.ajax({
+			    type: "GET",
+	        	contentType: 'application/json; charset=utf-8',
+	        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/stnames", 
+			    success: function(responseData) {
+			    	console.log("responseData: " + responseData);
+			    	console.log("obj: " + responseData.trainSchedulePojo[0].stationName);
+			    	
+			    	for (var i=0; i<responseData.trainSchedulePojo.length; i++){
+				      $('#fromStation').append('<option value="'+responseData.trainSchedulePojo[i].stationName+ '" class="dropDownBlk">'+responseData.trainSchedulePojo[i].stationName+'</option>');
+				    }
+				    
+				    for (var i=0; i<responseData.trainSchedulePojo.length; i++){
+				      $('#toStation').append('<option value="'+responseData.trainSchedulePojo[i].stationName+ '" class="dropDownBlk">'+responseData.trainSchedulePojo[i].stationName+'</option>');
+				    }
+			    	
+			    },
+			    error: function(XMLHttpRequest, textStatus, errorThrown) {
+			        //TODO  
+			    }
+			});  	     
+
 	  	$(function() {
 			$( "#datepicker" ).datepicker({
 				showOn: "button",
@@ -36,56 +48,49 @@
 		});
 	
 	
-
-	
-	
 	function getDescription() {
-		var url = 'http://192.168.1.32:8080/RESTfulExample/rest/payment';
-		req = new XMLHttpRequest();
-		req.onreadystatechange = processRequest;
-		req.open("GET", url, true);
-		req.send(null);
-	}
-	function processRequest() {
-		if (req.readyState == 4) {
-			if (req.status == 200) {								
-				var trainScheduledTable = document.getElementById("trainScheduleTable");
-		        var trainScheduledRow = trainScheduledTable.rows;
-		        if(trainScheduledRow.length>1){
+		var fromStation = document.getElementById("fromStation").value;
+		var toStation = document.getElementById("toStation").value;		
+		
+		$.support.cors = true
+		$.ajax({
+		    type: "GET",
+        	contentType: 'application/json; charset=utf-8',
+        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/schtrains?fromStation=PUNE&toStation=MUMBAI&time=2012-12-18%2017:23:27", 
+		    success: function(responseData) {
+		    	console.log("responseData" +responseData);
+		    	console.log("obj: " + responseData.trainSchedulePojo.length);
+		    	var trainScheduledTable = document.getElementById("trainScheduleTable");
+			    var trainScheduledRow = trainScheduledTable.rows;
+				if(trainScheduledRow.length>1){
 		            for(var j=(trainScheduledRow.length-1);j>0;j--){
 		                trainScheduledTable.deleteRow(j);
 		            }
-		        }		        
-		        
-                trainScheduledRow = trainScheduledTable.rows;
-               
-                var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);
-                newRow.insertCell(0).innerHTML = 1;
-                newRow.insertCell(1).innerHTML = "Zelam Express";
-                newRow.insertCell(2).innerHTML = "10:30";   
-                
-             
-                var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);
-                newRow.insertCell(0).innerHTML = 2;
-                newRow.insertCell(1).innerHTML = "Sinhgad Express";
-                newRow.insertCell(2).innerHTML = "11:30";    
-                
-                var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);
-                newRow.insertCell(0).innerHTML = 3;
-                newRow.insertCell(1).innerHTML = "Deccan  Express";
-                newRow.insertCell(2).innerHTML = "10:30";                 
-	            		        
-			} else   {
-				alert ( "Not able to retrieve description+"+req.responseText+"vide" );
-			}
-		}
+		        }
+		    	if (responseData.trainSchedulePojo.length > 1) {    	
+			        
+					for (var i=0;i<responseData.trainSchedulePojo.length;i++) {			      
+			            trainScheduledRow = trainScheduledTable.rows;           
+			            var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);			                
+			            newRow.insertCell(0).innerHTML = responseData.trainSchedulePojo[i].trainNo;
+			            newRow.insertCell(1).innerHTML = responseData.trainSchedulePojo[i].trainName;            
+			            newRow.insertCell(2).innerHTML = responseData.trainSchedulePojo[i].trainTime;  
+	            	}
+            	} else {           		
+						      
+		            trainScheduledRow = trainScheduledTable.rows;           
+		            var newRow = trainScheduledTable.insertRow(trainScheduledRow.length);		                       
+		            newRow.insertCell(0).innerHTML = responseData.trainSchedulePojo.trainNo;
+		            newRow.insertCell(1).innerHTML = responseData.trainSchedulePojo.trainName;            
+		            newRow.insertCell(2).innerHTML = responseData.trainSchedulePojo.trainTime;             	
+            		
+            	}
+		    },
+		    error: function(XMLHttpRequest, textStatus, errorThrown) {
+		        //TODO  
+		    }
+		});				
 	}
-	function parseMessages() {
-		response  = req.responseXML.documentElement;
-		itemDescription = response.text;
-		alert (itemDescription);
-	}
-	
 </script>
 </head>
 	<body>
@@ -99,8 +104,8 @@
 			   					From Station
 			   				</td>
 			   				<td>
-			   					<select id="fromStation" size="1">
-									<option>Select</option>
+			   					<select id="fromStation" size="1">	
+			   						<option>Select</option>	 								
 		    					</select>
 			   				<td>
 			   			</tr>
