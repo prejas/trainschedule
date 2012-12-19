@@ -29,7 +29,7 @@ public class TrainServiceDaoJdbcImpl implements TrainServiceDao {
 		Connection conn = null;
 		List<TrainSchedulePojo> list = null;
 		try {
-			String query = "select * from trainschedule";
+			String query = "select distinct(station_name) from trainschedule";
 			// TODO Auto-generated method stub
 			conn = dataSource.getConnection();
 			Statement ps = conn.createStatement();
@@ -57,7 +57,7 @@ public class TrainServiceDaoJdbcImpl implements TrainServiceDao {
 		Connection conn = null;
 		List<TrainSchedulePojo> list = null;
 		try {
-			String query = "select train_no,train_name,time from trainschedule where train_name like '%"+fromStation+"%' and train_name like '%"+toStation+"%' and time='"+dateTime+"'";
+			String query = "select train_no,train_name,time from trainschedule where train_name like '%"+fromStation+"%' and train_name like '%"+toStation+"%' and time>='"+dateTime+"'";
 			conn = dataSource.getConnection();
 			Statement ps = conn.createStatement();
 			ResultSet rs = ps.executeQuery(query);
