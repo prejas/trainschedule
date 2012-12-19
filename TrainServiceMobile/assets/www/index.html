@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>PhoneGap</title>
-<script src="../HelloGap/assets/www/trainSchedule.js"/>
+<title>Train Schedule</title>
 <script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
@@ -20,7 +19,7 @@
 	      	$.ajax({
 			    type: "GET",
 	        	contentType: 'application/json; charset=utf-8',
-	        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/stnames", 
+	        	url: "http://localhost:8080/TrainRestService/rest/trainservice/stnames", 
 			    success: function(responseData) {
 			    	console.log("responseData: " + responseData);
 			    	console.log("obj: " + responseData.trainSchedulePojo[0].stationName);
@@ -50,23 +49,41 @@
 	
 	function getDescription() {
 		var fromStation = document.getElementById("fromStation").value;
-		var toStation = document.getElementById("toStation").value;		
+		var toStation = document.getElementById("toStation").value;	
+		if (fromStation == 'Select') {
+			alert("Please Select From Station");
+			return false;
+		}	
+		if (toStation == 'Select') {
+			alert("Please Select To Station");
+			return false;		
+		}	
+		
+		if (fromStation == toStation) {
+			alert("Please Select Different From and To Station");
+			return false;
+		}
+		
 		
 		$.support.cors = true
 		$.ajax({
 		    type: "GET",
         	contentType: 'application/json; charset=utf-8',
-        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/schtrains?fromStation=PUNE&toStation=MUMBAI&time=2012-12-18%2017:23:27", 
+        	url: "http://localhost:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time=2012-01-01%2023:11:00", 
 		    success: function(responseData) {
 		    	console.log("responseData" +responseData);
-		    	console.log("obj: " + responseData.trainSchedulePojo.length);
 		    	var trainScheduledTable = document.getElementById("trainScheduleTable");
 			    var trainScheduledRow = trainScheduledTable.rows;
 				if(trainScheduledRow.length>1){
 		            for(var j=(trainScheduledRow.length-1);j>0;j--){
 		                trainScheduledTable.deleteRow(j);
 		            }
-		        }
+		        }		    	
+		    	if (responseData == null) {
+		    		alert("No Train Scheduled for these Stations");
+		    		return false;
+		    	}
+		    	console.log("obj: " + responseData.trainSchedulePojo.length);
 		    	if (responseData.trainSchedulePojo.length > 1) {    	
 			        
 					for (var i=0;i<responseData.trainSchedulePojo.length;i++) {			      
