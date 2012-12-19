@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class TrainScheduleRestService {
 	@GET
 	@Path("/schtrains")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<TrainSchedulePojo> getAllScheduledTrains(@PathParam("fromStation") String fromStation,@PathParam("fromStation") String toStation,@PathParam("toStation") String time) {
+	public List<TrainSchedulePojo> getAllScheduledTrains(@QueryParam("fromStation") String fromStation,@QueryParam("toStation") String toStation,@QueryParam("time") String time) {
 		return trainService.getAllScheduledTrains(fromStation, toStation, time);
 	}
 

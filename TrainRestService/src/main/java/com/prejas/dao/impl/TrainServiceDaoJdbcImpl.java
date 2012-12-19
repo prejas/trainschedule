@@ -57,19 +57,16 @@ public class TrainServiceDaoJdbcImpl implements TrainServiceDao {
 		Connection conn = null;
 		List<TrainSchedulePojo> list = null;
 		try {
-			String query = "select train_name,time from trainschedule where station_name="
-					+ fromStation
-					+ " and station_name="
-					+ toStation
-					+ " and time=" + dateTime + " ";
+			String query = "select train_no,train_name,time from trainschedule where train_name like '%"+fromStation+"%' and train_name like '%"+toStation+"%' and time='"+dateTime+"'";
 			conn = dataSource.getConnection();
 			Statement ps = conn.createStatement();
 			ResultSet rs = ps.executeQuery(query);
 			list = new ArrayList<TrainSchedulePojo>();
 			while (rs.next()) {
 				TrainSchedulePojo pojo = new TrainSchedulePojo();
-				pojo.setTrainName(String.valueOf(rs.getString(0)));
-				pojo.setTrainName(String.valueOf(rs.getString(1)));
+				pojo.setTrainNo(rs.getString("train_no"));
+				pojo.setTrainName(rs.getString("train_name"));
+				pojo.setTrainTime(String.valueOf(rs.getTimestamp("time")));
 				list.add(pojo);
 			}
 			return list;
