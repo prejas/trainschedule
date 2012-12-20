@@ -26,6 +26,9 @@
 
      $(document).ready(function() {
 			$("#event_date").datetimepicker({ 
+			 showOn: "button",
+			 buttonImage: "images/calendar.gif",
+			 buttonImageOnly: true,
 		     showSecond: true,dateFormat: 'dd-mm-yy',
 		     timeFormat: 'hh:mm:ss'
 		     });		
@@ -57,6 +60,8 @@
 	function getDescription() {
 		var fromStation = document.getElementById("fromStation").value;
 		var toStation = document.getElementById("toStation").value;	
+		var event_date = document.getElementById("event_date").value;	
+		
 		if (fromStation == 'Select') {
 			alert("Please Select From Station");
 			return false;
@@ -71,12 +76,13 @@
 			return false;
 		}
 		
+		console.log("Url : " +"http://192.168.1.178:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time="+event_date);
 		
 		$.support.cors = true
 		$.ajax({
 		    type: "GET",
         	contentType: 'application/json; charset=utf-8',
-        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time=2012-01-01%2023:11:00", 
+        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time="+event_date+"",		    
 		    success: function(responseData) {
 		    	console.log("responseData" +responseData);
 		    	var trainScheduledTable = document.getElementById("trainScheduleTable");
