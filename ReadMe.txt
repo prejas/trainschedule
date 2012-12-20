@@ -22,7 +22,7 @@ Database Setup
      use complete path where trainschedule.sql is located i.e. if extracted folder path is e:\TrainRestService\database then
      mysql>\. e:\TrainRestService\database\trainschedule.sql
 
-Setup and run TrainRestService java server App
+1. Setup and run TrainRestService java server App
 Setup
    1  install JDK 6
    2  set JAVA_HOME environmental variable with value as JDK installation home directory(i.e. c:\program files\java\jdk6)
@@ -46,7 +46,7 @@ Import project & run
 
 
 
-Setup & run  TrainServiceMobile android  App
+2. Setup & run  TrainServiceMobile android  App
 
 Setup
   1. Download Android SDK  from  http://developer.android.com/sdk/index.html and extract it to local hard disk.
