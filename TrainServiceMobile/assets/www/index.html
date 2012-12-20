@@ -38,7 +38,7 @@
 	      	$.ajax({
 			    type: "GET",
 	        	contentType: 'application/json; charset=utf-8',
-	        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/stnames", 
+	        	url: "http://localhost:8080/TrainRestService/rest/trainservice/stnames", 
 			    success: function(responseData) {
 			    	console.log("responseData: " + responseData);
 			    	console.log("obj: " + responseData.trainSchedulePojo[0].stationName);
@@ -76,13 +76,13 @@
 			return false;
 		}
 		
-		console.log("Url : " +"http://192.168.1.178:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time="+event_date);
+		console.log("Url : " +"http://localhost:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time="+event_date);
 		
 		$.support.cors = true
 		$.ajax({
 		    type: "GET",
         	contentType: 'application/json; charset=utf-8',
-        	url: "http://192.168.1.178:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time="+event_date+"",		    
+        	url: "http://localhost:8080/TrainRestService/rest/trainservice/schtrains?fromStation="+fromStation+"&toStation="+toStation+"&time="+event_date+"",		    
 		    success: function(responseData) {
 		    	console.log("responseData" +responseData);
 		    	var trainScheduledTable = document.getElementById("trainScheduleTable");
