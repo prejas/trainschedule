@@ -35,7 +35,6 @@ Import project & run
    1. select file->import->General->existing projects into workplace ->select root directory->select TrainRestService project from extracted project directory
    2. right click on TrainRestService project and select Run As -> Maven clean
    3. right click on TrainRestService project and select Run As -> Maven install
-   4 create Android virtual device from window -> Android Virtual Device Manager
    4  right click on TrainRestService project and select Run As ->Run On Server and select default option and click finish
    
 
